@@ -1,0 +1,207 @@
+---
+output:
+  pdf_document:
+    includes:
+      in_header: tex/header.tex
+    fig_caption: false
+  word_document: default
+---
+
+```{r DocumentSetup, echo=FALSE, results='hide', include=FALSE}
+### # specify knitr options
+knitr::opts_chunk$set(echo = FALSE, results = 'asis')
+
+### # initialize section counter
+robjSecEnum <- rqudocuhelper::SectionEnumerator$new()
+```
+
+![Qualitas Logo](png/QualitasLogo.png)
+
+\fcolorbox{black}{white}{
+	\parbox[t]{1.0\linewidth}{
+		\centering \fontsize{12pt}{20pt}\selectfont % 
+		\vspace*{0.5cm} % 
+
+		\hfill Umsetzungsdokumentation
+
+		\vspace*{0.5cm} 
+	}
+}
+
+\vspace*{0.5cm}
+
+\fcolorbox{black}{white}{
+	\parbox[t]{1.0\linewidth}{
+		\centering \fontsize{25pt}{40pt}\selectfont %
+		\vspace*{0.7cm}
+    Automated Animal Data Exchange    \\
+    Jax Webservice Prototyp    \\
+    ATDA-ASR    \\
+
+		\vspace*{0.7cm} % Space between the end of the title and the bottom of the grey box
+	}
+}
+
+\vspace*{1cm}
+
+\begin{center}
+\includegraphics[width=0.5\textwidth]{png/Pedigree.png}
+\end{center}
+
+\vspace{5ex}
+{\centering \small
+\hfill
+\begin{tabular}{l}
+Peter von Rohr                      \\
+FB EDV, Qualitas AG                 \\
+Chamerstrasse 56, CH-6300 Zug       \\
+\verb+http://www.qualitasag.ch+     \\
+\verb+peter.vonrohr@qualitasag.ch+  
+\end{tabular}
+}
+
+\pagebreak
+
+\tableofcontents
+
+\pagebreak
+
+```{r DocuStatusTable}
+r6objDocStat <- rqudocuhelper::R6ClassDocuStatus$new()
+r6objDocStat$setProject(psProject = "ATDA-ASR")
+#r6objDocStat$setVersion(psVersion = "0.0.901")
+#r6objDocStat$setStatus(psStatus = "Erstellung")
+r6objDocStat$setVersion(psVersion = "0.0.902")
+r6objDocStat$setStatus(psStatus = "Maven Projekte")
+
+r6objDocStat$include_doc_stat()
+```
+
+\pagebreak
+
+```{r AbrTable}
+r6ob_abbrtable <- rmddochelper::R6ClassTableAbbrev$new()
+r6ob_abbrtable$include_abbr_table(psAbbrTitle = "## Abkürzungen")
+```
+
+\pagebreak
+
+
+## Erklärung
+Dieses Dokument protokolliert die Schritte zur Erstellung eines `r r6ob_abbrtable$add_abbrev(psAbbrev = "JAX-WS", psMeaning = "Java XML Webservice")`. Im Projekt `r r6ob_abbrtable$add_abbrev(psAbbrev = "ATDA-ASR", psMeaning = "Automatisierter Tierdatenaustausch der ASR")` stellt sich bei der geplanten Zusammenarbeit mit `r r6ob_abbrtable$add_abbrev(psAbbrev = "CRV", psMeaning = "Cooperative Cattle Improvement")` zur Entwicklung von PlugIns für den Export von Milchmengendaten ab `r r6ob_abbrtable$add_abbrev(psAbbrev = "ISM", psMeaning = "Informationssysteme der Melkanlagen")` die Fragestellung nach der Implementierung eines Systems basierend auf Spezifikationen, welche als `r r6ob_abbrtable$add_abbrev(psAbbrev = "WSDL", psMeaning = "Webservice Description Language")` und `r r6ob_abbrtable$add_abbrev(psAbbrev = "XSD", psMeaning = "XML Service Description")` Dateien gegeben sind. Mit der Implementierung ist hier gemeint, dass wir die WSDL- und die XSD-Dateien als Input verwenden, um das Grundgerüst des Programmcodes zu erzeugen. Dieses Grundgerüst wird im Wesentlichen aus Definitionen von Klassen und Methoden bestehen.
+
+Eine Suche nach mögliche Werkzeugen zur Unterstützung bei der Implementierung einer bestehenden Schema-Definition führte auf das Maven-Plugin `Apache CXF`. Als Voraussetzung wurde zuerst einmal Maven und das Ecliplse-Plug-in M2Eclipse installiert.
+
+
+## Einführung
+Der Datentransfer im Projekt ATDA-ASR ist in drei Abschnitten geplant. 
+
+1. Export der Milchmengendaten aus dem ISM mit Hilfe von PlugIn`s
+2. Transfer der exportierten Milchmengendaten vom ISM zur Datenbank
+3. Import der transferierten Daten in ARGUS
+
+In den Abschnitten 1 und 2 wäre eine Zusammenarbeit mit CRV für uns sehr wertvoll. Insbesondere die Verwendung der PlugIns auf den ISM auf den Betrieben würde unser Projekt sehr beschleunigen. Die ISM auf den Betrieben sind Hersteller-spezifisch und müssen darum an die technischen Besonderheiten der Hersteller angepasst werden. Eine eigene Entwicklung dieser PlugIns würde den Aufwand im Projekt ATDA-ASR sehr stark erhöhen. 
+
+Gemäss `r r6ob_abbrtable$add_abbrev(psAbbrev = "BvL", psMeaning = "Bert vant Land")` von CRV ist im Herbst 2016 ein Projekt zur Entwicklung eines generischen APIs für die Betriebs-PlugIns geplant. Dieses Projekt soll auf den Vorgaben des Projekts `r r6ob_abbrtable$add_abbrev(psAbbrev = "ICAR-ADE", psMeaning = "ICAR Animal Data Exchange")` basieren. Diese Vorgaben bestehen aus einer Projektspezifikation und aus WSDL- und XSD-Dateien. Somit bekommt die automatische Code-Generierung basieren auf WSDL- und XSD-Dateien eine bestimmte Wichtigkeit.
+
+
+## Maven Projekt
+Maven ist ein Projektmanagementtool (https://maven.apache.org). Dieses kann als stand-alone Variante eingesetzt werden. Alternativ dazu existiert das PlugIn M2Eclipse (http://www.eclipse.org/m2e/), welches Maven Support für Eclipse bietet. Die Dokumentation unter http://www.eclipse.org/m2e/ ist nicht sehr ausführlich. Es gibt aber genügend andere Einführungen, wie ein Maven-Projekt in Eclipse gestartet werden kann. Als Bespiel verwenden wir hier eine Anleitung von [Tech-Recipes](http://www.tech-recipes.com/) unter http://www.tech-recipes.com/rx/39279/create-a-new-maven-project-in-eclipse. 
+
+### Voraussetzung
+Bevor M2Eclipse verwendet werden kann, muss das PlugIn installiert werden. Dies kann über die PlugIn-Installations-Funktionalität in Eclipse gemacht werden. Als erstes Fügen wir eine neue Download-Site hinzu. 
+
+```{r InstallM2E}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "InstallM2E", pnPaperWidthScale = 0.6)
+```
+
+Die Installation in Eclipse wird gestartet über "Help" > "Install New Software"
+
+```{r HelpInstallM2E}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "HelpInstallM2E", pnPaperWidthScale = 0.6)
+```
+
+### Erstes Maven Projekt
+Die Anleitung unter http://www.tech-recipes.com/rx/39279/create-a-new-maven-project-in-eclipse zeigt, wie ein einfaches Maven-Projekt erstellt wird. In Eclipse wird mit "File" > "New" > "Other" der Maven-Wizard ausgewählt und darin angegeben, dass ein neues "Maven-Projekt" erstellt werden soll.
+
+```{r EclipseMavenWizard}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "EclipseMavenWizard", pnPaperWidthScale = 0.6)
+```
+
+Als erstes wählen wir die Option "Create a simple project". Dies macht eine gewisse Auswahl an Vorlagen (sogenannte Archätypen).
+
+```{r SimpleMavenProject}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "SimpleMavenProject", pnPaperWidthScale = 0.6)
+```
+
+Danach müssen gewisse Informationen zum Projekt spezifiziert werden. Diese Informationen sind im Eingabefenster mit Namen versehen, welche für den Anfänger nicht auf Anhieb selbsterklärend sind. Als erstes wird eine "GroupId" verlangt. Die entspricht offenbar dem Namen der Institution in der typischen Java-Klassen-Nomenklatur, welche in etwa einem verkehrten URL entspricht. Im Feld "Artifact Id" soll der Name des Projekts eingetragen werden. Die übrigen Felder sind selbsterklärend. Der Abschnitt unter "Parent Project" kann leer gelassen werden.
+
+```{r ConfigureMavenProject}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "ConfigureMavenProject", pnPaperWidthScale = 0.6)
+```
+
+Als Resultat wurde ein neues Projekt in Eclipse erzeugt. Dieses enthält eine vorgegebene Struktur, welche auf dem folgenden Screenshot ersichtlich ist. Java code soll unter "src/main/java" abgelegt werden. Resourcen platziert man in "src/main/resources". Tests werden unter "src/test" angelegt.
+
+```{r NewProjectInExplorer}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "NewProjectInExplorer", pnPaperWidthScale = 0.6)
+```
+
+The file "pom.xml" contains the information that was entered into the configuration window before. This file can be seen in different views using the different tabs at the bottom of the window.
+
+```{r PomXml}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "PomXml", pnPaperWidthScale = 0.6)
+```
+
+### Weiterführendes Maven Projekt
+Die im vorangegangenen Unterabschnitt beschriebene Vorgehensweise beschreibt nur die Erstellung eines einfachen Mavenprojektes. In diesem Projekt gibt es aber noch keinen Code und auch keinen Test. Das gleiche Vorgehen, mit Ausnahme, dass kein einfaches sondern ein auf Archätypen basiertes Projekt erzeugt wird, ist unter https://wiki.jasig.org/display/UPM32/Creating+a+Simple+Maven+Project beschrieben. Diese Beschreibung wird hier nicht weiter erläutert werden. 
+
+Unter http://crunchify.com/how-to-create-dynamic-web-project-using-maven-in-eclipse wird ein dynamisches Web-Projekt mit Maven in Eclipse erstellt. Diese Anleitung soll hier im Detail analysiert werden. Die Erstellung des Maven-Projekts läuft gleich bis zur Angabe des Archätypen. Dort wird die Artifact-Id "maven-archetype-webapp" ausgewählt.
+
+```{r MavenArchWebApp}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "MavenArchWebApp", pnPaperWidthScale = 0.6)
+```
+
+In der erzeugten Webapplikation erscheint der unten gezeigte Fehler.
+
+```{r ServletSuperclassNotFound}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "ServletSuperclassNotFound", pnPaperWidthScale = 0.6)
+```
+
+Dieser Fehler kann behoben werden durch die Angabe der Abhängigkeit im pom.xml oder durch das Hinzufügen von Apache Tomcat als Runtime. Das Projekt kann nun gebuildet werden mit "Rechts-Klick" auf das Projekt und dann "Run As" > "Maven build ...". Die drei Punkte scheinen wichtig und führen im Gegensatz zur ersten "Maven build"-Option im Menufeld dazu, dass ein weiteres Optionsfenster geöffnet wird.
+
+```{r RunAsMavenBuild}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "RunAsMavenBuild", pnPaperWidthScale = 0.6)
+```
+
+Im folgenden Screenshot sind die zusätzlichen Optionen angegeben.
+
+```{r MavenBuildConfig}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "MavenBuildConfig", pnPaperWidthScale = 0.6)
+```
+
+In der Console von Eclipse sollte als Resultat "BUILD SUCCESS" stehen (siehe roten Pfeil)
+
+```{r MavenBuildResult}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "MavenBuildResult", pnPaperWidthScale = 0.6)
+```
+
+Once the building process is finished, we are ready to deploy to our webapplication server. This is done in the "Servers"-Tab by "Right-click" on the server > "Add and Remove" > Select the webapp to be deployed. 
+
+```{r DeployWebApp}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "DeployWebApp", pnPaperWidthScale = 0.6)
+```
+
+Der Webservice kann nun über http://localhost:8080/AaDeMavenTutorial/index.jsp im Browser aufgrufen werden.
+
+```{r WebAppInBrowser}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "WebAppInBrowser", pnPaperWidthScale = 0.6)
+```
+
+
+<!-- END of document:  Below this must not be anything, except the command to write all abbreviations to a file --> 
+```{r WriteTableOfAbbreviations, results='hide'}
+if (!r6ob_abbrtable$is_empty_abbr())
+  r6ob_abbrtable$writeToTsvFile()
+```
+
+
