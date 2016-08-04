@@ -1,3 +1,5 @@
-version	author	date	status	project
-0.0.901	pvr	2016-07-25	Erstellung	ATDA-ASR
-0.0.902	pvr	2016-07-26	Maven Projekte	ATDA-ASR
+Version	Author	Date	Status	Project
+0.0.901	2016-07-25	pvr	Erstellung	ATDA-ASR
+0.0.902	2016-07-28	pvr	Maven Projekte	ATDA-ASR
+0.0.903	2016-07-28	pvr	Erstellen WSDL Datei	ATDA-ASR
+0.0.904	2016-08-02	pvr	Webservice basierend auf WSDL	ATDA-ASR

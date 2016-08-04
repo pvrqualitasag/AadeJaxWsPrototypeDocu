@@ -10,10 +10,16 @@ output:
 ```{r DocumentSetup, echo=FALSE, results='hide', include=FALSE}
 ### # specify knitr options
 knitr::opts_chunk$set(echo = FALSE, results = 'asis')
-
+```
+```{r EnumeratorSetup, echo=FALSE, results='hide'}
 ### # initialize section counter
 robjSecEnum <- rqudocuhelper::SectionEnumerator$new()
 ```
+```{r AbrTableSetup, echo=FALSE, results='hide'}
+### # instantiate table of abbreviation
+r6ob_abbrtable <- rmddochelper::R6ClassTableAbbrev$new()
+```
+
 
 ![Qualitas Logo](png/QualitasLogo.png)
 
@@ -67,21 +73,26 @@ Chamerstrasse 56, CH-6300 Zug       \\
 \pagebreak
 
 ```{r DocuStatusTable}
-r6objDocStat <- rqudocuhelper::R6ClassDocuStatus$new()
-r6objDocStat$setProject(psProject = "ATDA-ASR")
-#r6objDocStat$setVersion(psVersion = "0.0.901")
-#r6objDocStat$setStatus(psStatus = "Erstellung")
-r6objDocStat$setVersion(psVersion = "0.0.902")
-r6objDocStat$setStatus(psStatus = "Maven Projekte")
+r6objDocStat <- rmddochelper::R6ClassDocuStatus$new()
 
-r6objDocStat$include_doc_stat()
-```
+# r6objDocStat$set_current_status(psVersion = "0.0.901",
+#                                  psStatus  = "Erstellung",
+#                                  psProject = "ATDA-ASR",
+#                                 psDate = "2016-07-25")
+# r6objDocStat$set_current_status(psVersion = "0.0.902",
+#                                  psStatus  = "Maven Projekte",
+#                                  psProject = "ATDA-ASR",
+#                                 psDate = "2016-07-28")
+# r6objDocStat$set_current_status(psVersion = "0.0.903",
+#                                  psStatus  = "Erstellen WSDL Datei",
+#                                  psProject = "ATDA-ASR",
+#                                 psDate = "2016-07-28")
 
-\pagebreak
-
-```{r AbrTable}
-r6ob_abbrtable <- rmddochelper::R6ClassTableAbbrev$new()
-r6ob_abbrtable$include_abbr_table(psAbbrTitle = "## Abkürzungen")
+r6objDocStat$set_current_status(psVersion = "0.0.904",
+                                 psStatus  = "Webservice basierend auf WSDL",
+                                 psProject = "ATDA-ASR",
+                                psDate = "2016-08-02")
+r6objDocStat$include_doc_stat(psTitle = "## Dokumentenstatus")
 ```
 
 \pagebreak
@@ -102,7 +113,22 @@ Der Datentransfer im Projekt ATDA-ASR ist in drei Abschnitten geplant.
 
 In den Abschnitten 1 und 2 wäre eine Zusammenarbeit mit CRV für uns sehr wertvoll. Insbesondere die Verwendung der PlugIns auf den ISM auf den Betrieben würde unser Projekt sehr beschleunigen. Die ISM auf den Betrieben sind Hersteller-spezifisch und müssen darum an die technischen Besonderheiten der Hersteller angepasst werden. Eine eigene Entwicklung dieser PlugIns würde den Aufwand im Projekt ATDA-ASR sehr stark erhöhen. 
 
-Gemäss `r r6ob_abbrtable$add_abbrev(psAbbrev = "BvL", psMeaning = "Bert vant Land")` von CRV ist im Herbst 2016 ein Projekt zur Entwicklung eines generischen APIs für die Betriebs-PlugIns geplant. Dieses Projekt soll auf den Vorgaben des Projekts `r r6ob_abbrtable$add_abbrev(psAbbrev = "ICAR-ADE", psMeaning = "ICAR Animal Data Exchange")` basieren. Diese Vorgaben bestehen aus einer Projektspezifikation und aus WSDL- und XSD-Dateien. Somit bekommt die automatische Code-Generierung basieren auf WSDL- und XSD-Dateien eine bestimmte Wichtigkeit.
+Gemäss `r r6ob_abbrtable$add_abbrev(psAbbrev = "BvL", psMeaning = "Bert vant Land")` von CRV ist im Herbst 2016 ein Projekt zur Entwicklung eines generischen APIs für die Betriebs-PlugIns geplant. Dieses Projekt soll auf den Vorgaben des Projekts 
+`r r6ob_abbrtable$add_abbrev(psAbbrev = "ICAR-ADE", psMeaning = "ICAR Animal Data Exchange")`
+`r r6ob_abbrtable$add_abbrev(psAbbrev = "ICAR", psMeaning = "International Committee for Animal Recording", pbQuote = FALSE, pbOut = FALSE)`
+ basieren. Diese Vorgaben bestehen aus einer Projektspezifikation und aus WSDL- und XSD-Dateien. Somit bekommt die automatische Code-Generierung basieren auf WSDL- und XSD-Dateien eine bestimmte Wichtigkeit.
+
+
+## Konfiguration des Applikationsservers in Eclipse
+Sobald in Eclipse ein neuer Workspace erzeugt wird, muss die Konfiguration des Applikationsservers neu erstellt werden. Als Voraussetzung für diese Einstellung muss der gewünschte Applikationsserver zuerst installiert sein. Die folgenden Schritte zeigen die Einstellung am Beispiel von TomEE (siehe auch im Abschnitt "Configuration of the Eclipse Workspace" auf http://help.eclipse.org). Folgende Schritte führen zur gewünschten Konfiguration
+
+1. In Eclipse wähle das Menu __File > New > Other ...__
+2. Selektiere __Server > Server__
+3. Click __Next__
+
+```{r EclipseTomEESetup}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "EclipseTomEESetup")
+```
 
 
 ## Maven Projekt
@@ -185,7 +211,7 @@ In der Console von Eclipse sollte als Resultat "BUILD SUCCESS" stehen (siehe rot
 rmddochelper::insertOdgAsPdf(psOdgFileStem = "MavenBuildResult", pnPaperWidthScale = 0.6)
 ```
 
-Once the building process is finished, we are ready to deploy to our webapplication server. This is done in the "Servers"-Tab by "Right-click" on the server > "Add and Remove" > Select the webapp to be deployed. 
+Sobald die Applikation der Building-Prozess abgeschlossen ist kann sie auf den Applikationsserver deployed werden. Dies kann über einen Rechts-Klick im Server-Tab auf dem entsprechenden Applikationsserver gemacht werden. Im Menufenster wählt man dann "Add and Remove" aus und verschiebt die Applikation so auf den Server.
 
 ```{r DeployWebApp}
 rmddochelper::insertOdgAsPdf(psOdgFileStem = "DeployWebApp", pnPaperWidthScale = 0.6)
@@ -198,10 +224,77 @@ rmddochelper::insertOdgAsPdf(psOdgFileStem = "WebAppInBrowser", pnPaperWidthScal
 ```
 
 
+## Erzeugung einer WSDL-Musterdatei
+Gemäss der Anleitung unter http://crunchify.com/create-sample-wsdl-in-eclipse-and-generate-client kann in Eclipse eine WSDL-Datei erzeugt werden. In einem weiteren Abschnitt kann die erzeugte Datei dann getestet werden.
+
+
+### Schritt 1: Ein Java Project
+Die Erstellung eines Java-Projekts in Eclipse ist abhängig von der Ansicht in welcher man sich gerade befindet. In der Java EE-Ansicht sind die Java-Projekte unter "New" > "Other" verfügbar. In der Java SE-Ansicht gibt es den direkten Pfad über "File" > "New" > "Java Project". Sobald dieses Projekt angelegt wird, wechselt Eclipse in die Java SE-Anicht. 
+
+```{r NewJavaProject}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "NewJavaProject")
+```
+
+
+### Schritt 2: WSDL Datei
+Mit "File" > "New" > "Other" > "Web Services" > "WSDL" wird eine neue WSDL-Datei erzeugt.
+
+
+### Schritt 3: Zuweisung der WSDL Datei zum Projekt
+Die neu erzeugte WSDL-Datei kann einem Projekt zugewiesen werden. Hier weisen wir die Datei dem unter Schritt 1 erzeugten Java Projekt zu.
+
+```{r NewWSDLFile}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "NewWSDLFile")
+```
+
+
+### Schritt 4 und 5: Anpassungen bei Konfiguration
+
+
+### Schritt 6: Generierung des Clients
+Auf der WSDL-Datei einen Rechts-Click und dann "Web Services" > "Generate Client" auswählen.
+
+
+### Schritt 7: Test client
+Mit dem Schieber auf "Test client" und dann "Finish". Dies erzeugt den Client und macht einen Test.
+
+```{r TestClient}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "TestClient")
+```
+
+
+## Ein SOAP-basierter Web Service
+Da das Projekt `ICAR-ADE` auf SOAP basiert und die von CRV in Aussicht gestellten PlugIns auf der Spezifikation von `ICAR-ADE` basieren soll, versuchen wir hier als erstes einen einfachen SOAP-basierten Webservice zu erstellen.
+
+
+### Apache Axis2
+Etlichen Tests einen einfachen SOAP basierten Webservice in Eclipse zu erstellen und dann auf TomEE (v7) unter Verwendung des Projektframeworks `Apache Axis2` zu installieren, haben gezeigt, dass dies offenbar nicht funktioniert. `Apache Axis2` scheint offenbar nicht mit Version 3.0 von Dynamic Web Projects in Eclipse kompatibel zu sein. 
+
+
+### Apache CXF
+Als Alternative zu Axis2 steht CXF zur Verfügung. Ob die Verwendung von CXF zu einem lauffähigen Webservice führt muss noch getestet werden.
+
+
+### Maven Webapp
+Wie oben beschrieben, kann ein einfacher Webservice auch über die Erstellung eines Maven-Projekts erstellt werden. 
+
 <!-- END of document:  Below this must not be anything, except the command to write all abbreviations to a file --> 
 ```{r WriteTableOfAbbreviations, results='hide'}
 if (!r6ob_abbrtable$is_empty_abbr())
   r6ob_abbrtable$writeToTsvFile()
 ```
+
+\pagebreak
+
+```{r AbrTableToDocument}
+r6ob_abbrtable$include_abbr_table(psAbbrTitle = "## Abkürzungen")
+```
+
+
+
+
+
+
+
 
 
