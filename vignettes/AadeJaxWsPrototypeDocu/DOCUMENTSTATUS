@@ -1,5 +1,7 @@
-Version	Author	Date	Status	Project
+Version	Date	Author	Status	Project
 0.0.901	2016-07-25	pvr	Erstellung	ATDA-ASR
 0.0.902	2016-07-28	pvr	Maven Projekte	ATDA-ASR
 0.0.903	2016-07-28	pvr	Erstellen WSDL Datei	ATDA-ASR
 0.0.904	2016-08-02	pvr	Webservice basierend auf WSDL	ATDA-ASR
+0.0.905	2016-09-14	pvr	Ergebnisse von Tests mit CXF und Axis2	ATDA-ASR
+0.0.906	2016-09-14	pvr	Wechsel auf Eclipse Neon	ATDA-ASR

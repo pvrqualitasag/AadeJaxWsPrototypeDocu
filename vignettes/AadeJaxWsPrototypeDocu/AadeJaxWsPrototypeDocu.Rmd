@@ -92,6 +92,16 @@ r6objDocStat$set_current_status(psVersion = "0.0.904",
                                  psStatus  = "Webservice basierend auf WSDL",
                                  psProject = "ATDA-ASR",
                                 psDate = "2016-08-02")
+
+r6objDocStat$set_current_status(psVersion = "0.0.905",
+                                 psStatus  = "Ergebnisse von Tests mit CXF und Axis2",
+                                 psProject = "ATDA-ASR",
+                                psDate = "2016-09-14")
+
+r6objDocStat$set_current_status(psVersion = "0.0.906",
+                                 psStatus  = "Wechsel auf Eclipse Neon",
+                                 psProject = "ATDA-ASR",
+                                psDate = "2016-09-14")
 r6objDocStat$include_doc_stat(psTitle = "## Dokumentenstatus")
 ```
 
@@ -99,24 +109,23 @@ r6objDocStat$include_doc_stat(psTitle = "## Dokumentenstatus")
 
 
 ## Erklärung
-Dieses Dokument protokolliert die Schritte zur Erstellung eines `r r6ob_abbrtable$add_abbrev(psAbbrev = "JAX-WS", psMeaning = "Java XML Webservice")`. Im Projekt `r r6ob_abbrtable$add_abbrev(psAbbrev = "ATDA-ASR", psMeaning = "Automatisierter Tierdatenaustausch der ASR")` stellt sich bei der geplanten Zusammenarbeit mit `r r6ob_abbrtable$add_abbrev(psAbbrev = "CRV", psMeaning = "Cooperative Cattle Improvement")` zur Entwicklung von PlugIns für den Export von Milchmengendaten ab `r r6ob_abbrtable$add_abbrev(psAbbrev = "ISM", psMeaning = "Informationssysteme der Melkanlagen")` die Fragestellung nach der Implementierung eines Systems basierend auf Spezifikationen, welche als `r r6ob_abbrtable$add_abbrev(psAbbrev = "WSDL", psMeaning = "Webservice Description Language")` und `r r6ob_abbrtable$add_abbrev(psAbbrev = "XSD", psMeaning = "XML Service Description")` Dateien gegeben sind. Mit der Implementierung ist hier gemeint, dass wir die WSDL- und die XSD-Dateien als Input verwenden, um das Grundgerüst des Programmcodes zu erzeugen. Dieses Grundgerüst wird im Wesentlichen aus Definitionen von Klassen und Methoden bestehen.
+Dieses Dokument protokolliert die Schritte zur Erstellung eines `r r6ob_abbrtable$add_abbrev(psAbbrev = "JAX-WS", psMeaning = "Java XML Webservice")`. Im Projekt `r r6ob_abbrtable$add_abbrev(psAbbrev = "ATDA-ASR", psMeaning = "Automatisierter Tierdatenaustausch der ASR")` stellt sich bei der geplanten Zusammenarbeit mit `r r6ob_abbrtable$add_abbrev(psAbbrev = "CRV", psMeaning = "Cooperative Cattle Improvement")` zur Entwicklung von PlugIns für den Export von Milchmengendaten ab `r r6ob_abbrtable$add_abbrev(psAbbrev = "ISM", psMeaning = "Informationssysteme der Melkanlagen")` die Fragestellung nach der Implementierung eines Systems basierend auf Spezifikationen, welche als `r r6ob_abbrtable$add_abbrev(psAbbrev = "WSDL", psMeaning = "Webservice Description Language")` und `r r6ob_abbrtable$add_abbrev(psAbbrev = "XSD", psMeaning = "XML Service Description")` Dateien gegeben sind. Mit der Implementierung ist hier gemeint, dass wir die WSDL- und die XSD-Dateien als Input verwenden, um das Grundgerüst des Programmcodes für einen Server (`r r6ob_abbrtable$add_abbrev(psAbbrev = "SEI", psMeaning = "Service Endpoint Interface")`) und einen Client zu erzeugen. Dieses Grundgerüst wird im Wesentlichen aus Definitionen von Klassen und Methoden bestehen. Die Client-Seite soll durch die Onfarm-Plugins von CRV umgesetzt werden.
 
 Eine Suche nach mögliche Werkzeugen zur Unterstützung bei der Implementierung einer bestehenden Schema-Definition führte auf das Maven-Plugin `Apache CXF`. Als Voraussetzung wurde zuerst einmal Maven und das Ecliplse-Plug-in M2Eclipse installiert.
+
+Alternativ zu `Apache CXF` existiert auch der Code-Generator des Eclipse-Plugins von `Apache Axis2`.
 
 
 ## Einführung
 Der Datentransfer im Projekt ATDA-ASR ist in drei Abschnitten geplant. 
 
-1. Export der Milchmengendaten aus dem ISM mit Hilfe von PlugIn`s
+1. Export der Milchmengendaten aus dem ISM mit Hilfe von Onfarm-Plugins (CRV)
 2. Transfer der exportierten Milchmengendaten vom ISM zur Datenbank
 3. Import der transferierten Daten in ARGUS
 
 In den Abschnitten 1 und 2 wäre eine Zusammenarbeit mit CRV für uns sehr wertvoll. Insbesondere die Verwendung der PlugIns auf den ISM auf den Betrieben würde unser Projekt sehr beschleunigen. Die ISM auf den Betrieben sind Hersteller-spezifisch und müssen darum an die technischen Besonderheiten der Hersteller angepasst werden. Eine eigene Entwicklung dieser PlugIns würde den Aufwand im Projekt ATDA-ASR sehr stark erhöhen. 
 
-Gemäss `r r6ob_abbrtable$add_abbrev(psAbbrev = "BvL", psMeaning = "Bert vant Land")` von CRV ist im Herbst 2016 ein Projekt zur Entwicklung eines generischen APIs für die Betriebs-PlugIns geplant. Dieses Projekt soll auf den Vorgaben des Projekts 
-`r r6ob_abbrtable$add_abbrev(psAbbrev = "ICAR-ADE", psMeaning = "ICAR Animal Data Exchange")`
-`r r6ob_abbrtable$add_abbrev(psAbbrev = "ICAR", psMeaning = "International Committee for Animal Recording", pbQuote = FALSE, pbOut = FALSE)`
- basieren. Diese Vorgaben bestehen aus einer Projektspezifikation und aus WSDL- und XSD-Dateien. Somit bekommt die automatische Code-Generierung basieren auf WSDL- und XSD-Dateien eine bestimmte Wichtigkeit.
+Gemäss `r r6ob_abbrtable$add_abbrev(psAbbrev = "BvL", psMeaning = "Bert vant Land")` von CRV ist im Herbst 2016 ein Projekt zur Entwicklung eines generischen APIs für die Betriebs-PlugIns geplant. Dieses Projekt soll auf den Vorgaben des Projekts `r r6ob_abbrtable$add_abbrev(psAbbrev = "ICAR-ADE", psMeaning = "ICAR Animal Data Exchange")` `r r6ob_abbrtable$add_abbrev(psAbbrev = "ICAR", psMeaning = "International Committee for Animal Recording", pbQuote = FALSE, pbOut = FALSE)` basieren. Diese Vorgaben bestehen aus einer Projektspezifikation und aus WSDL- und XSD-Dateien. Somit bekommt die automatische Code-Generierung basieren auf WSDL- und XSD-Dateien eine bestimmte Wichtigkeit.
 
 
 ## Konfiguration des Applikationsservers in Eclipse
@@ -135,7 +144,7 @@ rmddochelper::insertOdgAsPdf(psOdgFileStem = "EclipseTomEESetup")
 Maven ist ein Projektmanagementtool (https://maven.apache.org). Dieses kann als stand-alone Variante eingesetzt werden. Alternativ dazu existiert das PlugIn M2Eclipse (http://www.eclipse.org/m2e/), welches Maven Support für Eclipse bietet. Die Dokumentation unter http://www.eclipse.org/m2e/ ist nicht sehr ausführlich. Es gibt aber genügend andere Einführungen, wie ein Maven-Projekt in Eclipse gestartet werden kann. Als Bespiel verwenden wir hier eine Anleitung von [Tech-Recipes](http://www.tech-recipes.com/) unter http://www.tech-recipes.com/rx/39279/create-a-new-maven-project-in-eclipse. 
 
 ### Voraussetzung
-Bevor M2Eclipse verwendet werden kann, muss das PlugIn installiert werden. Dies kann über die PlugIn-Installations-Funktionalität in Eclipse gemacht werden. Als erstes Fügen wir eine neue Download-Site hinzu. 
+In Eclipse Neon ist das Plugin `m2e` schon installiert und somit kann dieser Abschnitt ignoriert werden. Für ältere versionen von Eclipse muss `m2e` von der entsprechenden Download-Site installiert werden. Dies wird im folgenden Abschnitt beschrieben. Bevor M2Eclipse verwendet werden kann, muss das PlugIn installiert werden. Dies kann über die PlugIn-Installations-Funktionalität in Eclipse gemacht werden. Als erstes Fügen wir eine neue Download-Site hinzu. 
 
 ```{r InstallM2E}
 rmddochelper::insertOdgAsPdf(psOdgFileStem = "InstallM2E", pnPaperWidthScale = 0.6)
@@ -172,7 +181,7 @@ Als Resultat wurde ein neues Projekt in Eclipse erzeugt. Dieses enthält eine vo
 rmddochelper::insertOdgAsPdf(psOdgFileStem = "NewProjectInExplorer", pnPaperWidthScale = 0.6)
 ```
 
-The file "pom.xml" contains the information that was entered into the configuration window before. This file can be seen in different views using the different tabs at the bottom of the window.
+Die Datei "pom.xml" enthält die Informationen, welche im Konfigurationsfenster eingegeben wurde. Diese Datei kann in verschiedenen Ansichten betrachtet werden. Die Ansicht kann über die Tabs am unteren Fensterrand bestimmt werden. 
 
 ```{r PomXml}
 rmddochelper::insertOdgAsPdf(psOdgFileStem = "PomXml", pnPaperWidthScale = 0.6)
@@ -264,7 +273,10 @@ rmddochelper::insertOdgAsPdf(psOdgFileStem = "TestClient")
 
 
 ## Ein SOAP-basierter Web Service
-Da das Projekt `ICAR-ADE` auf SOAP basiert und die von CRV in Aussicht gestellten PlugIns auf der Spezifikation von `ICAR-ADE` basieren soll, versuchen wir hier als erstes einen einfachen SOAP-basierten Webservice zu erstellen.
+In der Spezifikation zum Projekt `ICAR-ADE` wurden verschiedene Möglichkeiten für die Umsetzung eines Webservices erwähnt, aber die eigentliche Umsetzung wurde nur für die Variante eines SOAP basierten Webservices mit XML spezifiziert. Die von CRV in Aussicht gestellten PlugIns werden laut BvL auf der Spezifikation von `ICAR-ADE` basieren. Prinzipiell sind Webservices neutral im Bezug auf die Verwendung von Programmiersprachen. Es ist aber klar, dass die Verwendung der gleichen Programmiersprache in einem System, die Umsetzung vereinfachen sollte. Da die existierenden Webservice-Komponenten von ARGUS in Java umgesetzt wird, kommt auch hier Java zum Einsatz. Deshalb versuchen wir hier als erstes einen einfachen JAX-WS Webservice zu erstellen.
+
+## JAX-WS
+JAX-WS steht für `Java API für XMS Web Services` und ist ein Java-API für die Erstellung von Webservices. JAX-WS wurde mit `r r6ob_abbrtable$add_abbrev(psAbbrev = "EE", psMeaning = "Enterprise Edition")` 5 eingeführt und ist seit Version 1.6 auch Teil der `r r6ob_abbrtable$add_abbrev(psAbbrev = "SE", psMeaning = "Standard Edition")`. Wie andere Java-EE APIs verwendet auch JAX-WS sogenannte Annotationen {mit `@` gekennzeichnete Schlüsselwörter}, zur Vereinfachung der Entwicklung und des Deployments von Webservice-Clients und von Service-Endpunkten {Server}. 
 
 
 ### Apache Axis2
