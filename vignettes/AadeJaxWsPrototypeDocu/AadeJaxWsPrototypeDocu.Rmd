@@ -76,32 +76,53 @@ Chamerstrasse 56, CH-6300 Zug       \\
 r6objDocStat <- rmddochelper::R6ClassDocuStatus$new()
 
 # r6objDocStat$set_current_status(psVersion = "0.0.901",
-#                                  psStatus  = "Erstellung",
-#                                  psProject = "ATDA-ASR",
+#                                 psStatus  = "Erstellung",
+#                                 psProject = "ATDA-ASR",
 #                                 psDate = "2016-07-25")
 # r6objDocStat$set_current_status(psVersion = "0.0.902",
-#                                  psStatus  = "Maven Projekte",
-#                                  psProject = "ATDA-ASR",
+#                                 psStatus  = "Maven Projekte",
+#                                 psProject = "ATDA-ASR",
 #                                 psDate = "2016-07-28")
 # r6objDocStat$set_current_status(psVersion = "0.0.903",
-#                                  psStatus  = "Erstellen WSDL Datei",
-#                                  psProject = "ATDA-ASR",
+#                                 psStatus  = "Erstellen WSDL Datei",
+#                                 psProject = "ATDA-ASR",
 #                                 psDate = "2016-07-28")
 
 r6objDocStat$set_current_status(psVersion = "0.0.904",
-                                 psStatus  = "Webservice basierend auf WSDL",
-                                 psProject = "ATDA-ASR",
+                                psStatus  = "Webservice basierend auf WSDL",
+                                psProject = "ATDA-ASR",
                                 psDate = "2016-08-02")
 
 r6objDocStat$set_current_status(psVersion = "0.0.905",
-                                 psStatus  = "Ergebnisse von Tests mit CXF und Axis2",
-                                 psProject = "ATDA-ASR",
+                                psStatus  = "Ergebnisse von Tests mit CXF und Axis2",
+                                psProject = "ATDA-ASR",
                                 psDate = "2016-09-14")
 
 r6objDocStat$set_current_status(psVersion = "0.0.906",
-                                 psStatus  = "Wechsel auf Eclipse Neon",
-                                 psProject = "ATDA-ASR",
+                                psStatus  = "Wechsel auf Eclipse Neon",
+                                psProject = "ATDA-ASR",
                                 psDate = "2016-09-14")
+
+r6objDocStat$set_current_status(psVersion = "0.0.907",
+                                psStatus  = "Hello World JAX-WS",
+                                psProject = "ATDA-ASR",
+                                psDate = "2016-09-21")
+
+r6objDocStat$set_current_status(psVersion = "0.0.908",
+                                psStatus  = "Auslagerung Anhang ins Protokoll",
+                                psProject = "ATDA-ASR",
+                                psDate = "2016-09-21")
+
+r6objDocStat$set_current_status(psVersion = "0.0.909",
+                                psStatus  = "GetAnimalService aus ICAR-ADE",
+                                psProject = "ATDA-ASR",
+                                psDate = "2016-09-27")
+
+r6objDocStat$set_current_status(psVersion = "0.0.910",
+                                psStatus  = "Bestandteile der GetAnimalResponseType aus ICAR-ADE",
+                                psProject = "ATDA-ASR",
+                                psDate = "2016-09-29")
+
 r6objDocStat$include_doc_stat(psTitle = "## Dokumentenstatus")
 ```
 
@@ -110,10 +131,6 @@ r6objDocStat$include_doc_stat(psTitle = "## Dokumentenstatus")
 
 ## Erklärung
 Dieses Dokument protokolliert die Schritte zur Erstellung eines `r r6ob_abbrtable$add_abbrev(psAbbrev = "JAX-WS", psMeaning = "Java XML Webservice")`. Im Projekt `r r6ob_abbrtable$add_abbrev(psAbbrev = "ATDA-ASR", psMeaning = "Automatisierter Tierdatenaustausch der ASR")` stellt sich bei der geplanten Zusammenarbeit mit `r r6ob_abbrtable$add_abbrev(psAbbrev = "CRV", psMeaning = "Cooperative Cattle Improvement")` zur Entwicklung von PlugIns für den Export von Milchmengendaten ab `r r6ob_abbrtable$add_abbrev(psAbbrev = "ISM", psMeaning = "Informationssysteme der Melkanlagen")` die Fragestellung nach der Implementierung eines Systems basierend auf Spezifikationen, welche als `r r6ob_abbrtable$add_abbrev(psAbbrev = "WSDL", psMeaning = "Webservice Description Language")` und `r r6ob_abbrtable$add_abbrev(psAbbrev = "XSD", psMeaning = "XML Service Description")` Dateien gegeben sind. Mit der Implementierung ist hier gemeint, dass wir die WSDL- und die XSD-Dateien als Input verwenden, um das Grundgerüst des Programmcodes für einen Server (`r r6ob_abbrtable$add_abbrev(psAbbrev = "SEI", psMeaning = "Service Endpoint Interface")`) und einen Client zu erzeugen. Dieses Grundgerüst wird im Wesentlichen aus Definitionen von Klassen und Methoden bestehen. Die Client-Seite soll durch die Onfarm-Plugins von CRV umgesetzt werden.
-
-Eine Suche nach mögliche Werkzeugen zur Unterstützung bei der Implementierung einer bestehenden Schema-Definition führte auf das Maven-Plugin `Apache CXF`. Als Voraussetzung wurde zuerst einmal Maven und das Ecliplse-Plug-in M2Eclipse installiert.
-
-Alternativ zu `Apache CXF` existiert auch der Code-Generator des Eclipse-Plugins von `Apache Axis2`.
 
 
 ## Einführung
@@ -128,150 +145,6 @@ In den Abschnitten 1 und 2 wäre eine Zusammenarbeit mit CRV für uns sehr wertv
 Gemäss `r r6ob_abbrtable$add_abbrev(psAbbrev = "BvL", psMeaning = "Bert vant Land")` von CRV ist im Herbst 2016 ein Projekt zur Entwicklung eines generischen APIs für die Betriebs-PlugIns geplant. Dieses Projekt soll auf den Vorgaben des Projekts `r r6ob_abbrtable$add_abbrev(psAbbrev = "ICAR-ADE", psMeaning = "ICAR Animal Data Exchange")` `r r6ob_abbrtable$add_abbrev(psAbbrev = "ICAR", psMeaning = "International Committee for Animal Recording", pbQuote = FALSE, pbOut = FALSE)` basieren. Diese Vorgaben bestehen aus einer Projektspezifikation und aus WSDL- und XSD-Dateien. Somit bekommt die automatische Code-Generierung basieren auf WSDL- und XSD-Dateien eine bestimmte Wichtigkeit.
 
 
-## Konfiguration des Applikationsservers in Eclipse
-Sobald in Eclipse ein neuer Workspace erzeugt wird, muss die Konfiguration des Applikationsservers neu erstellt werden. Als Voraussetzung für diese Einstellung muss der gewünschte Applikationsserver zuerst installiert sein. Die folgenden Schritte zeigen die Einstellung am Beispiel von TomEE (siehe auch im Abschnitt "Configuration of the Eclipse Workspace" auf http://help.eclipse.org). Folgende Schritte führen zur gewünschten Konfiguration
-
-1. In Eclipse wähle das Menu __File > New > Other ...__
-2. Selektiere __Server > Server__
-3. Click __Next__
-
-```{r EclipseTomEESetup}
-rmddochelper::insertOdgAsPdf(psOdgFileStem = "EclipseTomEESetup")
-```
-
-
-## Maven Projekt
-Maven ist ein Projektmanagementtool (https://maven.apache.org). Dieses kann als stand-alone Variante eingesetzt werden. Alternativ dazu existiert das PlugIn M2Eclipse (http://www.eclipse.org/m2e/), welches Maven Support für Eclipse bietet. Die Dokumentation unter http://www.eclipse.org/m2e/ ist nicht sehr ausführlich. Es gibt aber genügend andere Einführungen, wie ein Maven-Projekt in Eclipse gestartet werden kann. Als Bespiel verwenden wir hier eine Anleitung von [Tech-Recipes](http://www.tech-recipes.com/) unter http://www.tech-recipes.com/rx/39279/create-a-new-maven-project-in-eclipse. 
-
-### Voraussetzung
-In Eclipse Neon ist das Plugin `m2e` schon installiert und somit kann dieser Abschnitt ignoriert werden. Für ältere versionen von Eclipse muss `m2e` von der entsprechenden Download-Site installiert werden. Dies wird im folgenden Abschnitt beschrieben. Bevor M2Eclipse verwendet werden kann, muss das PlugIn installiert werden. Dies kann über die PlugIn-Installations-Funktionalität in Eclipse gemacht werden. Als erstes Fügen wir eine neue Download-Site hinzu. 
-
-```{r InstallM2E}
-rmddochelper::insertOdgAsPdf(psOdgFileStem = "InstallM2E", pnPaperWidthScale = 0.6)
-```
-
-Die Installation in Eclipse wird gestartet über "Help" > "Install New Software"
-
-```{r HelpInstallM2E}
-rmddochelper::insertOdgAsPdf(psOdgFileStem = "HelpInstallM2E", pnPaperWidthScale = 0.6)
-```
-
-### Erstes Maven Projekt
-Die Anleitung unter http://www.tech-recipes.com/rx/39279/create-a-new-maven-project-in-eclipse zeigt, wie ein einfaches Maven-Projekt erstellt wird. In Eclipse wird mit "File" > "New" > "Other" der Maven-Wizard ausgewählt und darin angegeben, dass ein neues "Maven-Projekt" erstellt werden soll.
-
-```{r EclipseMavenWizard}
-rmddochelper::insertOdgAsPdf(psOdgFileStem = "EclipseMavenWizard", pnPaperWidthScale = 0.6)
-```
-
-Als erstes wählen wir die Option "Create a simple project". Dies macht eine gewisse Auswahl an Vorlagen (sogenannte Archätypen).
-
-```{r SimpleMavenProject}
-rmddochelper::insertOdgAsPdf(psOdgFileStem = "SimpleMavenProject", pnPaperWidthScale = 0.6)
-```
-
-Danach müssen gewisse Informationen zum Projekt spezifiziert werden. Diese Informationen sind im Eingabefenster mit Namen versehen, welche für den Anfänger nicht auf Anhieb selbsterklärend sind. Als erstes wird eine "GroupId" verlangt. Die entspricht offenbar dem Namen der Institution in der typischen Java-Klassen-Nomenklatur, welche in etwa einem verkehrten URL entspricht. Im Feld "Artifact Id" soll der Name des Projekts eingetragen werden. Die übrigen Felder sind selbsterklärend. Der Abschnitt unter "Parent Project" kann leer gelassen werden.
-
-```{r ConfigureMavenProject}
-rmddochelper::insertOdgAsPdf(psOdgFileStem = "ConfigureMavenProject", pnPaperWidthScale = 0.6)
-```
-
-Als Resultat wurde ein neues Projekt in Eclipse erzeugt. Dieses enthält eine vorgegebene Struktur, welche auf dem folgenden Screenshot ersichtlich ist. Java code soll unter "src/main/java" abgelegt werden. Resourcen platziert man in "src/main/resources". Tests werden unter "src/test" angelegt.
-
-```{r NewProjectInExplorer}
-rmddochelper::insertOdgAsPdf(psOdgFileStem = "NewProjectInExplorer", pnPaperWidthScale = 0.6)
-```
-
-Die Datei "pom.xml" enthält die Informationen, welche im Konfigurationsfenster eingegeben wurde. Diese Datei kann in verschiedenen Ansichten betrachtet werden. Die Ansicht kann über die Tabs am unteren Fensterrand bestimmt werden. 
-
-```{r PomXml}
-rmddochelper::insertOdgAsPdf(psOdgFileStem = "PomXml", pnPaperWidthScale = 0.6)
-```
-
-### Weiterführendes Maven Projekt
-Die im vorangegangenen Unterabschnitt beschriebene Vorgehensweise beschreibt nur die Erstellung eines einfachen Mavenprojektes. In diesem Projekt gibt es aber noch keinen Code und auch keinen Test. Das gleiche Vorgehen, mit Ausnahme, dass kein einfaches sondern ein auf Archätypen basiertes Projekt erzeugt wird, ist unter https://wiki.jasig.org/display/UPM32/Creating+a+Simple+Maven+Project beschrieben. Diese Beschreibung wird hier nicht weiter erläutert werden. 
-
-Unter http://crunchify.com/how-to-create-dynamic-web-project-using-maven-in-eclipse wird ein dynamisches Web-Projekt mit Maven in Eclipse erstellt. Diese Anleitung soll hier im Detail analysiert werden. Die Erstellung des Maven-Projekts läuft gleich bis zur Angabe des Archätypen. Dort wird die Artifact-Id "maven-archetype-webapp" ausgewählt.
-
-```{r MavenArchWebApp}
-rmddochelper::insertOdgAsPdf(psOdgFileStem = "MavenArchWebApp", pnPaperWidthScale = 0.6)
-```
-
-In der erzeugten Webapplikation erscheint der unten gezeigte Fehler.
-
-```{r ServletSuperclassNotFound}
-rmddochelper::insertOdgAsPdf(psOdgFileStem = "ServletSuperclassNotFound", pnPaperWidthScale = 0.6)
-```
-
-Dieser Fehler kann behoben werden durch die Angabe der Abhängigkeit im pom.xml oder durch das Hinzufügen von Apache Tomcat als Runtime. Das Projekt kann nun gebuildet werden mit "Rechts-Klick" auf das Projekt und dann "Run As" > "Maven build ...". Die drei Punkte scheinen wichtig und führen im Gegensatz zur ersten "Maven build"-Option im Menufeld dazu, dass ein weiteres Optionsfenster geöffnet wird.
-
-```{r RunAsMavenBuild}
-rmddochelper::insertOdgAsPdf(psOdgFileStem = "RunAsMavenBuild", pnPaperWidthScale = 0.6)
-```
-
-Im folgenden Screenshot sind die zusätzlichen Optionen angegeben.
-
-```{r MavenBuildConfig}
-rmddochelper::insertOdgAsPdf(psOdgFileStem = "MavenBuildConfig", pnPaperWidthScale = 0.6)
-```
-
-In der Console von Eclipse sollte als Resultat "BUILD SUCCESS" stehen (siehe roten Pfeil)
-
-```{r MavenBuildResult}
-rmddochelper::insertOdgAsPdf(psOdgFileStem = "MavenBuildResult", pnPaperWidthScale = 0.6)
-```
-
-Sobald die Applikation der Building-Prozess abgeschlossen ist kann sie auf den Applikationsserver deployed werden. Dies kann über einen Rechts-Klick im Server-Tab auf dem entsprechenden Applikationsserver gemacht werden. Im Menufenster wählt man dann "Add and Remove" aus und verschiebt die Applikation so auf den Server.
-
-```{r DeployWebApp}
-rmddochelper::insertOdgAsPdf(psOdgFileStem = "DeployWebApp", pnPaperWidthScale = 0.6)
-```
-
-Der Webservice kann nun über http://localhost:8080/AaDeMavenTutorial/index.jsp im Browser aufgrufen werden.
-
-```{r WebAppInBrowser}
-rmddochelper::insertOdgAsPdf(psOdgFileStem = "WebAppInBrowser", pnPaperWidthScale = 0.6)
-```
-
-
-## Erzeugung einer WSDL-Musterdatei
-Gemäss der Anleitung unter http://crunchify.com/create-sample-wsdl-in-eclipse-and-generate-client kann in Eclipse eine WSDL-Datei erzeugt werden. In einem weiteren Abschnitt kann die erzeugte Datei dann getestet werden.
-
-
-### Schritt 1: Ein Java Project
-Die Erstellung eines Java-Projekts in Eclipse ist abhängig von der Ansicht in welcher man sich gerade befindet. In der Java EE-Ansicht sind die Java-Projekte unter "New" > "Other" verfügbar. In der Java SE-Ansicht gibt es den direkten Pfad über "File" > "New" > "Java Project". Sobald dieses Projekt angelegt wird, wechselt Eclipse in die Java SE-Anicht. 
-
-```{r NewJavaProject}
-rmddochelper::insertOdgAsPdf(psOdgFileStem = "NewJavaProject")
-```
-
-
-### Schritt 2: WSDL Datei
-Mit "File" > "New" > "Other" > "Web Services" > "WSDL" wird eine neue WSDL-Datei erzeugt.
-
-
-### Schritt 3: Zuweisung der WSDL Datei zum Projekt
-Die neu erzeugte WSDL-Datei kann einem Projekt zugewiesen werden. Hier weisen wir die Datei dem unter Schritt 1 erzeugten Java Projekt zu.
-
-```{r NewWSDLFile}
-rmddochelper::insertOdgAsPdf(psOdgFileStem = "NewWSDLFile")
-```
-
-
-### Schritt 4 und 5: Anpassungen bei Konfiguration
-
-
-### Schritt 6: Generierung des Clients
-Auf der WSDL-Datei einen Rechts-Click und dann "Web Services" > "Generate Client" auswählen.
-
-
-### Schritt 7: Test client
-Mit dem Schieber auf "Test client" und dann "Finish". Dies erzeugt den Client und macht einen Test.
-
-```{r TestClient}
-rmddochelper::insertOdgAsPdf(psOdgFileStem = "TestClient")
-```
-
-
 ## Ein SOAP-basierter Web Service
 In der Spezifikation zum Projekt `ICAR-ADE` wurden verschiedene Möglichkeiten für die Umsetzung eines Webservices erwähnt, aber die eigentliche Umsetzung wurde nur für die Variante eines SOAP basierten Webservices mit XML spezifiziert. Die von CRV in Aussicht gestellten PlugIns werden laut BvL auf der Spezifikation von `ICAR-ADE` basieren. Prinzipiell sind Webservices neutral im Bezug auf die Verwendung von Programmiersprachen. Es ist aber klar, dass die Verwendung der gleichen Programmiersprache in einem System, die Umsetzung vereinfachen sollte. Da die existierenden Webservice-Komponenten von ARGUS in Java umgesetzt wird, kommt auch hier Java zum Einsatz. Deshalb versuchen wir hier als erstes einen einfachen JAX-WS Webservice zu erstellen.
 
@@ -279,16 +152,178 @@ In der Spezifikation zum Projekt `ICAR-ADE` wurden verschiedene Möglichkeiten f
 JAX-WS steht für `Java API für XMS Web Services` und ist ein Java-API für die Erstellung von Webservices. JAX-WS wurde mit `r r6ob_abbrtable$add_abbrev(psAbbrev = "EE", psMeaning = "Enterprise Edition")` 5 eingeführt und ist seit Version 1.6 auch Teil der `r r6ob_abbrtable$add_abbrev(psAbbrev = "SE", psMeaning = "Standard Edition")`. Wie andere Java-EE APIs verwendet auch JAX-WS sogenannte Annotationen {mit `@` gekennzeichnete Schlüsselwörter}, zur Vereinfachung der Entwicklung und des Deployments von Webservice-Clients und von Service-Endpunkten {Server}. 
 
 
-### Apache Axis2
-Etlichen Tests einen einfachen SOAP basierten Webservice in Eclipse zu erstellen und dann auf TomEE (v7) unter Verwendung des Projektframeworks `Apache Axis2` zu installieren, haben gezeigt, dass dies offenbar nicht funktioniert. `Apache Axis2` scheint offenbar nicht mit Version 3.0 von Dynamic Web Projects in Eclipse kompatibel zu sein. 
+## Hello World JAX-WS
+Gemäss der Anleitung unter http://www.eclipse.org/webtools/jst/components/ws/1.5/tutorials/TopDownWebService/TopDownWebService.html kann für eine gegebene WSDL-Datei (http://www.eclipse.org/webtools/jst/components/ws/1.5/tutorials/TopDownWebService/srcfiles/AreaService.wsdl) ein Webservice erzeugt werden. 
+
+Die in der Anleitung gezeigten Schritte werden hier nochmals wiederholt. Die folgenden Schritte erzeugen einen JAX-WS server basierend auf einer gegebenen WSDL-Datei.
+
+### Server
+Als erstes muss in Eclipse ein `Dynamic Web Project` erstellt werden. Dieses Projekt beinhaltet nachher den Serverteil des Webservice.
+
+```{r NewDynamicWebProject}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "NewDynamicWebProject")
+```
+
+In das Verzeichnis `WebContent` wird die WSDL-Datei von http://www.eclipse.org/webtools/jst/components/ws/1.5/tutorials/TopDownWebService/srcfiles/AreaService.wsdl importiert. 
+
+```{r ImportWsdlDatei}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "ImportWsdlDatei")
+```
+
+Basierend auf der importierten WSDL-Datei wird nun der Webservice erzeugt.
+
+```{r NewOtherWebservice}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "NewOtherWebservice")
+```
+
+Innerhalb des `Web Service`-Fensters werden die Default-Werte übernommen.
+
+```{r WebServiceWizard}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "WebServiceWizard")
+```
+
+Die nächsten Fenster werden mit `Next` durchlaufen. Dabei wird der Applikationsserver gestartet und die nötigen Ergänzungen zum Projekt gemacht. Als Resultat wird die Implementationsklasse des Services im Editor geöffnet. Diese Implementation muss noch angepasst werden damit wirklich die Fläche berechnet wird. Die Anpassung besteht darin den Return-Wert von $-3$ durch den Ausdruck `parameters.getHeight()*parameters.getWidth()` zu ersetzen.
+
+```{r AdaptationServiceImpl}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "AdaptationServiceImpl")
+```
+
+### Client
+Unter http://www.eclipse.org/webtools/jst/components/ws/1.5/tutorials/WebServiceClient/WebServiceClient.html ist beschrieben, wie ein Client zum oben erstellten Server erstellt wird.
+
+Die folgenden Schritte wiederholen die Anleitung zur Erstellung des Clients.
+
+1. Auswahl der Datei __AreaServiceSOAP.wsdl__. WICHTIG ist, dass wir nicht die Datei `AreaService.wsdl`, welche wir zur Erstellung des Servers verwendet hatten, auswählen.
+
+```{r AreaServiceSOAP}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "AreaServiceSOAP")
+```
+
+2. Erstellen des Webservice Clients über den Wizard
+
+```{r WebserviceClientWizard}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "WebserviceClientWizard")
+```
+
+Danach erscheint das `Web Service Client`-Fenster in welchem der Client konfiguriert werden kann. Den Slider schieben wir ganz hoch bis der Status `Test client` erscheint. Danach wird unter dem Link `Client project` das Projekt angegeben, welches den Client beherbergen soll.
+
+```{r WebserviceConfiguration}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "WebserviceConfiguration")
+```
+
+Die verbleibenden Fenster können mit `Next` durchlaufen werden und dann sollte als Resultat die folgende Webseite angezeigt werden.
+
+```{r WebseiteResultat}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "WebseiteResultat")
+```
+
+Im Fenster `Methods` klickt man auf `calculateRectArea`. Dann können Inputs eingegeben werden. Der Service funktioniert auch über die Eingabe des URI http://localhost:8080/AreaProjClient/sampleAreaServiceProxy/TestClient.jsp in einem Browser.
+
+In Eclipse kann der Client-Test jeder Zeit wieder gestartet werden, indem durch einen Rechtsklick auf `TestClient.jsp` in `AreaProjCleint > WebContent > sampleAreaServiceProxy` und dann `Run As > Run on Server` auswählt. 
+
+```{r TestClientRunOnServer}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "TestClientRunOnServer")
+```
 
 
-### Apache CXF
-Als Alternative zu Axis2 steht CXF zur Verfügung. Ob die Verwendung von CXF zu einem lauffähigen Webservice führt muss noch getestet werden.
+## Nächste Schritte
+In einem nächsten Schritt geht es darum die gleiche Prozedur für eine WSDL-Datei zu machen, welche aus dem Projekt ICAR-ADE kommt. Da die vollständige WSDL-Datei sehr umfangreich ist, versuchen wir zuerst mit einer minimalen Version mit einem Test-Service für Milchleistungsdaten einen Server zu erstellen.
+
+Sobald der Server-Prototyp steht, wird der nächste Schritt die Anbindung an eine Datenbank sein, welche die übermittelten Werte speichert.
 
 
-### Maven Webapp
-Wie oben beschrieben, kann ein einfacher Webservice auch über die Erstellung eines Maven-Projekts erstellt werden. 
+## JAX-WS SEI für ein Beispiel-Service aus ICAR-ADE
+Da die Übertragung der Milchleistungsdaten in ICAR-ADE mit einem sehr ausgedehnten Service umgesetzt sind, wurde der Service `GetAnimal` als einfacheres Bespiel ausgewählt. Das folgende Vorgehen ist geplant.
+
+1. Aus der WSDL-Datei (wsMrAde.wsdl) wird der Service GetAnimal extrahiert und es wird daraus eine neue WSDL-Datei erstellt (wsMrAdeGetAnimal.wsdl). 
+2. Die abhängigen Definitionen werden angepasst. 
+3. Die Namespacebezeichnungen werden angepasst. ICARAggregateBusinessInformationEntity:1.1 wird zu ICARAggregateBusinessInformationEntity, 
+4. Fehler mit inkonsistenten Namespacebezeichungen, beispielsweise `sc::SpecieCodeType` versus `clmICARSpecieCode:SpecieCodeType`
+5. In der WSDL-Datei (wsMrAdeGetAnimal.wsdl) wurde ein neuer `r r6ob_abbrtable$add_abbrev(psAbbrev = "xmlns", psMeaning = "XML namespace")` definiert und dem Namespace des Haupt-Schemas (ADE_GetAnimal.xsd) zugewiesen. 
+6. Wie oben beschrieben wurde der Webservice generiert. 
+
+
+### Resultat des mit Apache Axis generierten Servers
+Als Resultat wird folgendes Gerüst für den Server aufgebaut. Die Vielzahl der unter dem Punkt "Java Resources/src" gezeigten Java-Pakete wurden alle aus den XSD/WSDL-Dateien erzeugt.
+
+```{r IcarAdeSkeletonSei}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "IcarAdeSkeletonSei")
+```
+
+Der rote Pfeil im obigen Diagramm zeigt auf die Klasse `BasicHttpBinding_wsMrAdeInterfaceImpl`, in welcher die Implementation des Servers eingefügt werden muss. Diese Klasse hat eine öffentliche Methode `getAnimal`, welche als Parameter ein Objekt vom Typ `GetAnimalRequestType` bekommt und als Resultat ein Objekt vom Typ `GetAnimalResponseType` zurückgeben muss.
+
+Für die Implementationsmethode `getAnimal` ist also das `GetAnimalRequestType`-Objekt der Input und das `GetAnimalResponseType`-Objekt der Output. Beide Objekte können wir uns in Eclipse graphisch darstellen lassen. Die Struktur des Inputs `GetAnimalRequestType` sieht wie folgt aus.
+
+```{r GetAnimalRequestType}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "GetAnimalRequestType")
+```
+
+Die analoge Darstellung für den Output `GetAnimalResponseType` ist hier im Anschluss gezeigt. 
+
+```{r GetAnimalResponseType}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "GetAnimalResponseType")
+```
+
+### Implementation
+Aus den Informationen im Input von `GetAnimalRequestType` und zusätzlichen Informationen, zum angeforderten Tier soll der Output vom Typ `GetAnimalResponseType` erzeugt werden. Der Output `GetAnimalResponseType` besteht aus drei Komponenten
+
+1. MessageHeader vom Typ ADEExchangedDocumentType
+2. StandardResponse vom Typ StandardResponseType
+3. SpecificResponseGetAnimal vom Typ SpecificResponseGetAnimalType
+
+### MessageHeader
+Der MessageHeader ist vom Typ `ADEExchangedDocumentType`. Dieser Datentyp ist in der Spezifikation im Abschnitt 3.10.1 beschrieben. Der Aufbau dieses Typs ist im folgenden Diagramm dargestellt.
+
+Der Typ `ADEExchangedDocumentType` enthält die folgenden Komponenten:
+
+*	`Identifier`: Identität der Nachricht generiert durch den Sender
+*	`Issueing`: Datum und Uhrzeit, wann Nachricht erzeugt wurde.
+*	`Version`: Versionsnummer
+*	`Language`: Sprache der Nachricht
+*	`LocalAdditionalData`: Optionale zusätzliche DAten
+*	`SenderParty`: Organisation oder Person, welche für den Inhalt verantwortlich ist
+*	`RecipientParty`: Organisation oder Person, welche für die Verarbeitung der Nachricht zuständig ist.
+
+```{r ADEExchangedDocumentTypeDiagram}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "ADEExchangedDocumentTypeDiagram")
+```
+
+`SenderParty` und `RecipientParty` sind beide vom Typ `ADEPARTYTYPE`, welcher von ICAR-ADE definiert wurde (siehe 3.10.2 in der Spezifikation). Der Einfachheit halber wird die `RecipientParty` der Response von der Senderparty des Requests übernommen. Die `SenderParty` der Response wird aus einer neu geschriebenen Generatorklasse namens `QualitasSenderPartyGenerator` generiert.
+
+Die Komponente `Identifier` wird über die neu geschriebene Generatoren-Klasse `AnimalResponseIdGenerator` erzeugt. Die Sprache und die RecipientParty wurden vom Request übernommen und als Datum wird das aktuelle Datum eingetragen.
+
+### StandardResponse
+Die Komponente `StandardResponse` ist vom Typ `StandardResponseType`. Der Typ `StandardResponseType` besteht seinerseits aus den drei Komponenten 
+
+1. `RequestProcessingStatus` vom Typ `rpsc:RequestProcessingStatusCodeType`: Status der Verarbeitung nach der Codeliste `RequestProcessingStatusCode`
+2. `RequestID` vom Typ `udt:IDType`: Kopie der Nachrichten-Id im Header der Request-Nachricht
+3. `RequestProcessingError` vom Typ `icar:ErrorType`: Fehlerbeschreibung
+
+```{r StandardResponseTypeDiagram}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "StandardResponseTypeDiagram", pnPaperWidthScale = 0.6)
+```
+
+Die Fehlerbeschreibung `RequestProcessingError` ist vom Typ `icar:ErrorType`
+
+```{r ErrorTypeDiagram}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "ErrorTypeDiagram")
+```
+
+Die Komponenten `ErrorID` und `ErrorDescription` sind beide vom Typ `TextType`, welche einfach mit einem String erzeugt werden können. Die `ErrorSeverity` ist eine Integer-Zahl welche den Grad des Fehlers bezeichnet.
+
+
+### SpecificResponse
+The third part consists of the `SpecificResponse` of type `SpecificResponseGetAnimalType`. This type contains three sub-types consisting of
+
+1. `TicketResponse` of type `TicketResponseType`
+2. `AnimalMessage` of type `AnimalDescriptionType` 
+3. `GetAnimalResponseZipMessage` of type `ZipMessageType`
+
+```{r SpecificResponseGetAnimalTypeDiagram}
+rmddochelper::insertOdgAsPdf(psOdgFileStem = "SpecificResponseGetAnimalTypeDiagram")
+```
+
+
 
 <!-- END of document:  Below this must not be anything, except the command to write all abbreviations to a file --> 
 ```{r WriteTableOfAbbreviations, results='hide'}
@@ -301,6 +336,13 @@ if (!r6ob_abbrtable$is_empty_abbr())
 ```{r AbrTableToDocument}
 r6ob_abbrtable$include_abbr_table(psAbbrTitle = "## Abkürzungen")
 ```
+
+
+
+
+
+
+
 
 
 

@@ -5,3 +5,7 @@ Version	Date	Author	Status	Project
 0.0.904	2016-08-02	pvr	Webservice basierend auf WSDL	ATDA-ASR
 0.0.905	2016-09-14	pvr	Ergebnisse von Tests mit CXF und Axis2	ATDA-ASR
 0.0.906	2016-09-14	pvr	Wechsel auf Eclipse Neon	ATDA-ASR
+0.0.907	2016-09-21	pvr	Hello World JAX-WS	ATDA-ASR
+0.0.908	2016-09-21	pvr	Auslagerung Anhang ins Protokoll	ATDA-ASR
+0.0.909	2016-09-27	pvr	GetAnimalService aus ICAR-ADE	ATDA-ASR
+0.0.910	2016-09-29	pvr	Bestandteile der GetAnimalResponseType aus ICAR-ADE	ATDA-ASR
