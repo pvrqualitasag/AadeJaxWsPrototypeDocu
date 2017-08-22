@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = FALSE, results = 'asis')
 ```
 ```{r EnumeratorSetup, echo=FALSE, results='hide'}
 ### # initialize section counter
-robjSecEnum <- rqudocuhelper::SectionEnumerator$new()
+# robjSecEnum <- rqudocuhelper::SectionEnumerator$new()
 ```
 ```{r AbrTableSetup, echo=FALSE, results='hide'}
 ### # instantiate table of abbreviation
